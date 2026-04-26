@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  syntax:
+    name: Syntax
+    runs-on: ubuntu-slim
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check Formula syntax
+        run: ruby -c Formula/baseline.rb
+
+  install:
+    name: Install
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Formula
+        run: brew install --formula ./Formula/baseline.rb
+
+      - name: Smoke test
+        run: baseline version
+
+      - name: Brew test
+        run: brew test ./Formula/baseline.rb
