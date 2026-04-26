@@ -1,26 +1,26 @@
 class Baseline < Formula
   desc "Read-only CLI for IssueHunt Baseline"
   homepage "https://github.com/urugus/baseline-cli"
-  version "0.1.0"
+  version "0.2.0"
   license "MIT"
 
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/urugus/baseline-cli/releases/download/v0.1.0/baseline-darwin-arm64"
-      sha256 "8a5bb40f646c8375e9f2a0cd9123d87bde96727af56c95e7afad561ccb913cad"
+      url "https://github.com/urugus/baseline-cli/releases/download/v0.2.0/baseline-darwin-arm64"
+      sha256 "58e79397203e48b810d2730209b2356ca680ce35c8d77449a17a3e855120e0e5"
     else
-      url "https://github.com/urugus/baseline-cli/releases/download/v0.1.0/baseline-darwin-amd64"
-      sha256 "d9ae60c17121f15acfdf3d75763c10523c7dbfb6b2d4ff398ad33d0a860d6fb6"
+      url "https://github.com/urugus/baseline-cli/releases/download/v0.2.0/baseline-darwin-amd64"
+      sha256 "89eea9592367e9164b97b7b56e39d834482c6201915cee685592f24b4aa04104"
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
-      url "https://github.com/urugus/baseline-cli/releases/download/v0.1.0/baseline-linux-arm64"
-      sha256 "679bf59ad0e1e3d973368d488ac4727454400de18bacdd5eba89163634a60dfb"
+      url "https://github.com/urugus/baseline-cli/releases/download/v0.2.0/baseline-linux-arm64"
+      sha256 "f0fe3f0868ad13be399f7f44ff7f2704cd097ee457107958529844d99cf8431b"
     else
-      url "https://github.com/urugus/baseline-cli/releases/download/v0.1.0/baseline-linux-amd64"
-      sha256 "bcbe17b4218d6972b87fdf60bb701bf515b13dada82fd99d39c973b11fcf5c86"
+      url "https://github.com/urugus/baseline-cli/releases/download/v0.2.0/baseline-linux-amd64"
+      sha256 "54ddc326aa429e76fb354767d46d98852bbba71f501c17e5172a37c3a86b2b28"
     end
   end
 
@@ -29,6 +29,6 @@ class Baseline < Formula
   end
 
   test do
-    assert_match "baseline v0.1.0", shell_output("#{bin}/baseline version")
+    assert_match "baseline v0.2.0", shell_output("#{bin}/baseline version")
   end
 end
