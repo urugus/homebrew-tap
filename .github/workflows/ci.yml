@@ -17,6 +17,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+
       - name: Check Formula syntax
         run: ruby -c Formula/baseline.rb
 
@@ -27,11 +32,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Register local tap
+        run: brew tap urugus/tap "$GITHUB_WORKSPACE"
+
       - name: Install Formula
-        run: brew install --formula ./Formula/baseline.rb
+        run: brew install baseline
 
       - name: Smoke test
         run: baseline version
 
       - name: Brew test
-        run: brew test ./Formula/baseline.rb
+        run: brew test baseline
