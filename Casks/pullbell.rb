@@ -1,13 +1,13 @@
 cask "pullbell" do
-  version "0.7.1"
+  version "0.9.0"
 
   on_arm do
-    sha256 "8d743085b44761b5d433a595213371e39394d2d1058664173898beb5d69eb374"
+    sha256 "422ff4b8b0f4623b74dd68fa3320df4a7cc1ceeba6cde6e7fe6bf0b423d03739"
     url "https://github.com/urugus/Pullbell/releases/download/v#{version}/pullbell-#{version}-aarch64-apple-darwin.zip"
   end
 
   on_intel do
-    sha256 "923b7afd79d527f60fd390ef41c7ff3c2ba8d0573c4fdbcab31363567f3b0c37"
+    sha256 "fa2b81ffe89b4e044e0c224bcc64cf182ad490d0e29d2e034e5f764b89ac52ef"
     url "https://github.com/urugus/Pullbell/releases/download/v#{version}/pullbell-#{version}-x86_64-apple-darwin.zip"
   end
 
