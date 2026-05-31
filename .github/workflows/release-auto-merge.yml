@@ -1,0 +1,97 @@
+name: Release Auto Merge
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+
+permissions:
+  contents: write
+  pull-requests: write
+  checks: read
+
+jobs:
+  cask-release:
+    name: Cask Release Auto Merge
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && !github.event.pull_request.draft && (github.event.pull_request.user.login == 'urugus' || github.event.pull_request.user.login == 'github-actions[bot]') && startsWith(github.event.pull_request.head.ref, 'codex/update-') }}
+    runs-on: ubuntu-slim
+
+    steps:
+      - name: Checkout base automation
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: main
+          persist-credentials: false
+
+      - name: Verify release cask update
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPOSITORY: ${{ github.repository }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: ruby .github/scripts/verify-cask-release-pr.rb
+
+      - name: Wait for required CI
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          required_checks="Syntax Install"
+
+          for attempt in $(seq 1 60); do
+            pending=0
+
+            for check in $required_checks; do
+              result="$(
+                gh api "repos/${GITHUB_REPOSITORY}/commits/${HEAD_SHA}/check-runs" \
+                  --jq ".check_runs[] | select(.name == \"${check}\") | [.status, .conclusion] | @tsv" |
+                  tail -n 1
+              )"
+
+              if [ -z "$result" ]; then
+                echo "Waiting for ${check} to be created..."
+                pending=1
+                continue
+              fi
+
+              status="${result%%	*}"
+              conclusion="${result#*	}"
+
+              if [ "$status" != "completed" ]; then
+                echo "Waiting for ${check}: ${status}"
+                pending=1
+                continue
+              fi
+
+              if [ "$conclusion" != "success" ]; then
+                echo "::error::${check} completed with ${conclusion}"
+                exit 1
+              fi
+
+              echo "${check} passed"
+            done
+
+            if [ "$pending" -eq 0 ]; then
+              exit 0
+            fi
+
+            sleep 10
+          done
+
+          echo "::error::Timed out waiting for required CI checks"
+          exit 1
+
+      - name: Merge release PR
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_AUTOMERGE_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "::error::Set RELEASE_AUTOMERGE_TOKEN to a token owned by an admin with repo access."
+            exit 1
+          fi
+
+          gh pr merge "$PR_URL" --squash --admin --delete-branch
