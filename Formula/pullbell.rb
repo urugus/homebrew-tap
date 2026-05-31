@@ -1,9 +1,9 @@
 class Pullbell < Formula
   desc "macOS menu bar app for GitHub pull request notifications"
   homepage "https://github.com/urugus/Pullbell"
-  url "https://github.com/urugus/Pullbell/archive/refs/tags/v0.9.3.tar.gz"
-  version "0.9.3"
-  sha256 "6d9a38e157f245d84901718c7bf9d3d9885bfa7fb43bb79b0c8262c4d2d860f8"
+  url "https://github.com/urugus/Pullbell/archive/refs/tags/v0.9.4.tar.gz"
+  version "0.9.4"
+  sha256 "7021511cc13914cb0eaf47c8c6b620dcfd3594a4b96a21c3feaa07f7a189b706"
   license "MIT"
   head "https://github.com/urugus/Pullbell.git", branch: "main"
 
