@@ -1,6 +1,6 @@
 cask "nextroom" do
-  version "0.1.15"
-  sha256 "83c138a96b514f74c965466916a9a8a3714e9c4cd774aa4135c7478570c31bfa"
+  version "0.1.16"
+  sha256 "8ddfd961ee63e306b8cde21f67de00978716178709103771d5d2a4ac0b997ae8"
 
   url "https://github.com/urugus/nextroom/releases/download/v#{version}/NextRoom-#{version}-mac-arm64.zip"
   name "NextRoom"
