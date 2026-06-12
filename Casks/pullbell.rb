@@ -15,7 +15,7 @@ cask "pullbell" do
   desc "macOS menu bar app for GitHub pull request notifications"
   homepage "https://github.com/urugus/Pullbell"
 
-  depends_on macos: ">= :monterey"
+  depends_on macos: :monterey
 
   app "Pullbell.app"
 
