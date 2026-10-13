@@ -39,10 +39,10 @@ jobs:
         run: brew trust --formula urugus/tap/baseline
 
       - name: Install Formula
-        run: brew install baseline
+        run: brew install --formula urugus/tap/baseline
 
       - name: Smoke test
         run: baseline version
 
       - name: Brew test
-        run: brew test baseline
+        run: brew test --formula urugus/tap/baseline
